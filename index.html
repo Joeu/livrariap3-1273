@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script src="/js/dados.js"></script>
+	<title>Livraria</title>
+	<meta charset='UTF-8'>
+</head>
+<body ng-app="app">
+	<h1 align="center">Livraria</h1>
+	<div ng-controller="libraryController">
+		<h2 style="margin-left: 10%">Obras</h2>
+		<table border="1" align="center" style="width:80%;">
+			<tbody>
+				<tr>
+					<th>Título</th>
+					<th>Autor</th>
+					<th>Descrição</th>
+					<th>Capa</th>
+					<th>Preço</th>
+					<th>Comentários</th>
+					<th>Editar</th>
+					<th>Remover</th>
+				</tr>
+				<tr ng-repeat="book in bookList">
+					<td>
+						<div ng-hide="editData[book.id]">{{book.titulo}}</div>
+						<div ng-show="editData[book.id]">
+							<input type="text" ng-model="book.titulo"></input>
+						</div>
+					</td>
+					<td>
+						<div ng-hide="editData[book.id]">{{book.autores}}</div>
+						<div ng-show="editData[book.id]">
+							<input type="text" ng-model="book.autores"></input>
+						</div>
+					</td>
+					<td>
+						<div ng-hide="editData[book.id]">{{book.descricao}}</div>
+						<div ng-show="editData[book.id]">
+							<input type="text" ng-model="book.descricao"></input>
+						</div>
+					</td>
+					<td>
+						<div ng-hide="editData[book.id]">
+							<img src="{{book.imagem}}"/>
+						</div>
+						<div ng-show="editData[book.id]">
+							<input type="text" ng-model="book.imagem"></input>
+						</div>
+					</td>
+					<td>
+						<div ng-hide="editData[book.id]">{{book.preco}}</div>
+						<div ng-show="editData[book.id]">
+							<input type="text" ng-model="book.preco"></input>
+						</div>
+					</td>
+					<td>
+						<img src="https://confluence.atlassian.com/doc/files/268044085/view-a-comment-icon.png" ng-click="commentEnabled = !commentEnabled">
+						<div ng-show="commentEnabled">
+							<ul>
+								<li ng-repeat="comentario in book.comentarios">{{comentario}}</li>
+							</ul>
+
+							<div>
+								<textarea rows="4" ng-model="comments"></textarea>
+							</div>
+							<button ng-click="comment(book, comments)">Comentar</button>
+   						</div>
+					</td>
+
+					<td align="center">
+						<button ng-hide="editData[book.id]" ng-click="modify(book)">Modificar</button>
+                        <button ng-show="editData[book.id]" ng-click="update(book)">Atualizar</button>
+					</td>
+					<td align="center">
+						<a>
+							<img src="https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Delete.png" ng-click="remove($index)">
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<br>
+		<hr style="width: 80%">
+
+		<table border="0" align="center">
+			<tr>
+				<td>Título: </td>
+				<td>
+					<input ng-model="titulo" type="text"></input>
+				</td>
+			</tr>
+			<tr>
+				<td>Autor: </td>
+				<td>
+					<input ng-model="autores" type="text"></input>
+				</td>
+			</tr>
+			<tr>
+				<td>Descrição: </td>
+				<td>
+					<input ng-model="descricao" type="text"></input>
+				</td>
+			</tr>
+			<tr>
+				<td>Capa: </td>
+				<td>
+					<input ng-model="imagem" type="text"></input>
+				</td>
+			</tr>
+			<tr>
+				<td>Preço: </td>
+				<td>
+					<input ng-model="preco" type="text"></input>
+				</td>
+			</tr>
+
+		</table>
+		<div align="center">
+			<button ng-click="add()">Adicionar</button>
+		</div>
+
+	</div>
+
+</body>
+
+</html>
