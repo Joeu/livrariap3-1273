@@ -8,7 +8,7 @@
 </head>
 <body ng-app="app">
 	<h1 align="center">Livraria</h1>
-	<div ng-controller="libraryController">
+	<div ng-controller="libraryController as lib">
 		<h2 style="margin-left: 10%">Obras</h2>
 		<table border="1" align="center" style="width:80%;">
 			<tbody>
@@ -22,60 +22,61 @@
 					<th>Editar</th>
 					<th>Remover</th>
 				</tr>
-				<tr ng-repeat="book in bookList">
+				<tr ng-repeat="book in lib.bookList">
 					<td>
-						<div ng-hide="editData[book.id]">{{book.titulo}}</div>
+						<div ng-hide="editData[book.id]">{{book.title}}</div>
 						<div ng-show="editData[book.id]">
-							<input type="text" ng-model="book.titulo"></input>
+							<input type="text" ng-model="book.title"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.autores}}</div>
+						<div ng-hide="editData[book.id]">{{book.author}}</div>
 						<div ng-show="editData[book.id]">
-							<input type="text" ng-model="book.autores"></input>
+							<input type="text" ng-model="book.author"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.descricao}}</div>
+						<div ng-hide="editData[book.id]">{{book.description}}</div>
 						<div ng-show="editData[book.id]">
-							<input type="text" ng-model="book.descricao"></input>
+							<input type="text" ng-model="book.description"></input>
 						</div>
 					</td>
 					<td>
 						<div ng-hide="editData[book.id]">
-							<img src="{{book.imagem}}"/>
+							<img src="{{book.cover}}"/>
 						</div>
 						<div ng-show="editData[book.id]">
-							<input type="text" ng-model="book.imagem"></input>
+							<input type="text" ng-model="book.cover"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.preco}}</div>
+						<div ng-hide="editData[book.id]">{{book.price}}</div>
 						<div ng-show="editData[book.id]">
-							<input type="text" ng-model="book.preco"></input>
+							<input type="text" ng-model="book.price"></input>
 						</div>
 					</td>
 					<td>
-						<img src="https://confluence.atlassian.com/doc/files/268044085/view-a-comment-icon.png" ng-click="commentEnabled = !commentEnabled">
-						<div ng-show="commentEnabled">
+						<img src="https://confluence.atlassian.com/doc/files/268044085/view-a-comment-icon.png" ng-click="lib.commentEnabled = !lib.commentEnabled">
+						<div ng-show="lib.commentEnabled">
 							<ul>
-								<li ng-repeat="comentario in book.comentarios">{{comentario}}</li>
+								<li ng-repeat="comment in book.comments">{{comment}}</li>
 							</ul>
 
 							<div>
 								<textarea rows="4" ng-model="comments"></textarea>
 							</div>
-							<button ng-click="comment(book, comments)">Comentar</button>
+							<button ng-click="lib.comment(book, comments)">Comentar</button>
    						</div>
 					</td>
 
 					<td align="center">
-						<button ng-hide="editData[book.id]" ng-click="modify(book)">Modificar</button>
-                        <button ng-show="editData[book.id]" ng-click="update(book)">Atualizar</button>
+						<button ng-hide="editData[book.edit]" ng-click="lib.modify(book, $index)">Modificar</button>
+                        <button ng-show="editData[book.edit]" ng-click="lib.update(book, $index)">Atualizar</button>
 					</td>
+
 					<td align="center">
 						<a>
-							<img src="https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Delete.png" ng-click="remove($index)">
+							<img src="https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Delete.png" ng-click="lib.remove($index)">
 						</a>
 					</td>
 				</tr>
@@ -89,37 +90,37 @@
 			<tr>
 				<td>Título: </td>
 				<td>
-					<input ng-model="titulo" type="text"></input>
+					<input ng-model="lib.title" type="text"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>Autor: </td>
 				<td>
-					<input ng-model="autores" type="text"></input>
+					<input ng-model="lib.author" type="text"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>Descrição: </td>
 				<td>
-					<input ng-model="descricao" type="text"></input>
+					<input ng-model="lib.description" type="text"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>Capa: </td>
 				<td>
-					<input ng-model="imagem" type="text"></input>
+					<input ng-model="lib.cover" type="text"></input>
 				</td>
 			</tr>
 			<tr>
 				<td>Preço: </td>
 				<td>
-					<input ng-model="preco" type="text"></input>
+					<input ng-model="lib.price" type="text"></input>
 				</td>
 			</tr>
 
 		</table>
 		<div align="center">
-			<button ng-click="add()">Adicionar</button>
+			<button ng-click="lib.add()">Adicionar</button>
 		</div>
 
 	</div>
