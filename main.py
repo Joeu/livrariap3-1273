@@ -15,12 +15,41 @@
 # limitations under the License.
 #
 import webapp2
+import json
+
+import model
 
 
-class MainHandler(webapp2.RequestHandler):
+def as_dict(book):
+    return {'id': book.key.id(),
+            'title': book.title,
+            'author': book.author,
+            'description': book.description,
+            'cover': book.cover,
+            'price': book.price}
+
+
+class JsonHandler(webapp2.RequestHandler):
+    #def get(self):
+    #    self.response.write('Hello world!')
+
+    def write_json(self, res):
+        self.response.write(json.dumps(res))
+
+
+class BookREST(JsonHandler):
     def get(self):
-        self.response.write('Hello world!')
+        library = model.get_all_books()
+        res = [as_dict(book) for book in library]
+        self.write_json(res)
+
+    def post(self):
+        res = json.loads(self.request.body)
+        book = model.insert_book(res['id'], res['title'], res['author'], res['description'], res['cover'], res['price'])
+        res = as_dict(book)
+        self.write_json(res)
+
 
 app = webapp2.WSGIApplication([
-    ('/api/book', MainHandler)
+    ('/api/book', BookREST),
 ], debug=True)
