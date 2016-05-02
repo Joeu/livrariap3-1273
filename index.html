@@ -24,34 +24,34 @@
 				</tr>
 				<tr ng-repeat="book in lib.bookList">
 					<td>
-						<div ng-hide="editData[book.id]">{{book.title}}</div>
-						<div ng-show="editData[book.id]">
+						<div ng-hide="lib.editData[$index]">{{book.title}}</div>
+						<div ng-show="lib.editData[$index]">
 							<input type="text" ng-model="book.title"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.author}}</div>
-						<div ng-show="editData[book.id]">
+						<div ng-hide="lib.editData[$index]">{{book.author}}</div>
+						<div ng-show="lib.editData[$index]">
 							<input type="text" ng-model="book.author"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.description}}</div>
-						<div ng-show="editData[book.id]">
+						<div ng-hide="lib.editData[$index]">{{book.description}}</div>
+						<div ng-show="lib.editData[$index]">
 							<input type="text" ng-model="book.description"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">
+						<div ng-hide="lib.editData[$index]">
 							<img src="{{book.cover}}"/>
 						</div>
-						<div ng-show="editData[book.id]">
+						<div ng-show="lib.editData[$index]">
 							<input type="text" ng-model="book.cover"></input>
 						</div>
 					</td>
 					<td>
-						<div ng-hide="editData[book.id]">{{book.price}}</div>
-						<div ng-show="editData[book.id]">
+						<div ng-hide="lib.editData[$index]">{{book.price}}</div>
+						<div ng-show="lib.editData[$index]">
 							<input type="text" ng-model="book.price"></input>
 						</div>
 					</td>
@@ -70,8 +70,8 @@
 					</td>
 
 					<td align="center">
-						<button ng-hide="editData[book.edit]" ng-click="lib.modify(book, $index)">Modificar</button>
-                        <button ng-show="editData[book.edit]" ng-click="lib.update(book, $index)">Atualizar</button>
+						<button ng-hide="lib.editData[$index]" ng-click="lib.modify($index)">Modificar</button>
+                        <button ng-show="lib.editData[$index]" ng-click="lib.update($index)">Atualizar</button>
 					</td>
 
 					<td align="center">
