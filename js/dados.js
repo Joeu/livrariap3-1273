@@ -1,9 +1,6 @@
-var joeu;
-
 angular.module('app', [])
     .controller('libraryController', function ($http) {
         var libraryController = this;
-        joeu = this;
         libraryController.bookList = [
                 ];
 
@@ -52,18 +49,28 @@ angular.module('app', [])
             $http.post('/api/book', json).then(successCallback, errorCallback);
         }
         
-        // /api/
-
         libraryController.modify = function(index){
             libraryController.editData[index] = true;
         }
 
-        libraryController.update = function(index){
-            libraryController.editData[index] = false;
-        }
+        libraryController.update = function(bookIndex){
+            function successCallback(response) {
+                libraryController.editData[bookIndex] = false;
+            };
+            function errorCallback(response) {
+                console.log("Error");
+            };
 
-        libraryController.comment = function(book, x){
-            book.comments.push(x);
+            var json = {
+                id: libraryController.bookList[bookIndex].id,
+                title: libraryController.bookList[bookIndex].title,
+                author: libraryController.bookList[bookIndex].author,
+                description: libraryController.bookList[bookIndex].description,
+                cover: libraryController.bookList[bookIndex].cover,
+                price: libraryController.bookList[bookIndex].price
+            };
+
+            $http.put('/api/book/'+ libraryController.bookList[bookIndex].id, json).then(successCallback(), errorCallback());
         }
 
         libraryController.remove = function(bookIndex){
@@ -75,6 +82,10 @@ angular.module('app', [])
             };
 
             $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback(), errorCallback());
+        }
+
+        libraryController.comment = function(book, x){
+            book.comments.push(x);
         }
 
         libraryController.edit = function(x){

@@ -53,6 +53,12 @@ class BookREST(JsonHandler):
     def delete(self, id):
         model.delete_book(int(id));
 
+    def put(self, id):
+        res = json.loads(self.request.body)
+        book = model.update_book(res['id'], res['title'], res['author'], res['description'], res['cover'], res['price'])
+        res = as_dict(book)
+        self.write_json(res)
+
 app = webapp2.WSGIApplication([
     ('/api/book', BookREST),
     (r'/api/book/(?P<id>[0-9]+)$',BookREST)
