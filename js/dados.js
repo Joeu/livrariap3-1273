@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
 
-app.controller('libraryController', function () {
+app.controller('libraryController', function ($http) {
     var libraryController = this;
 
     this.bookList = [
@@ -13,7 +13,7 @@ app.controller('libraryController', function () {
         this.editData[i] = false;
     }
 
-    this.add = function(){
+    this.add = function($http, book){
         this.bookList.push({
             //id:this.bookList.lenght;
             title:this.title,
@@ -63,4 +63,22 @@ app.controller('libraryController', function () {
             }
     }
 
+});
+//----- $http approach
+
+app.factory('libraryService', function ($http) {
+    var get_all_books = function (callback) {
+        $http({
+            method: 'GET',
+            url: '/api/book'
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    return {
+        get_all_books: get_all_books
+    };
 });
