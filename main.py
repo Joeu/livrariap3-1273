@@ -21,7 +21,8 @@ import model
 
 
 def as_dict(book):
-    return {'id': book.key.id(),
+    return {
+            'id': book.key.id(),
             'title': book.title,
             'author': book.author,
             'description': book.description,
@@ -49,7 +50,10 @@ class BookREST(JsonHandler):
         res = as_dict(book)
         self.write_json(res)
 
+    def delete(self, id):
+        model.delete_book(int(id));
 
 app = webapp2.WSGIApplication([
     ('/api/book', BookREST),
+    (r'/api/book/(?P<id>[0-9]+)$',BookREST)
 ], debug=True)

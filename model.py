@@ -2,7 +2,6 @@ from google.appengine.ext import ndb
 
 
 class Book (ndb.Model):
-
     title = ndb.StringProperty()
     author = ndb.StringProperty()
     description = ndb.StringProperty()

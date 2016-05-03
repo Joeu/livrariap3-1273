@@ -1,84 +1,84 @@
-var app = angular.module('app', []);
+var joeu;
 
-app.controller('libraryController', function ($http) {
-    var libraryController = this;
+angular.module('app', [])
+    .controller('libraryController', function ($http) {
+        var libraryController = this;
+        joeu = this;
+        libraryController.bookList = [
+                ];
 
-    this.bookList = [
-            ];
+        libraryController.commentEnabled = false;
+        libraryController.editData = {};
 
-    this.commentEnabled = false;
-    this.editData = {};
+        for (var i=0, lenght = libraryController.bookList.lenght; i < lenght; i++){
+            libraryController.editData[i] = false;
+        }
 
-    for (var i=0, lenght = this.bookList.lenght; i < lenght; i++){
-        this.editData[i] = false;
-    }
+        //---$http
+        // /api/book
+        libraryController.get_books = function () {
+            function successCallback(response) {
+                libraryController.bookList = response.data;
+            };
 
-    this.add = function($http, book){
-        this.bookList.push({
-            //id:this.bookList.lenght;
-            title:this.title,
-            author:this.author,
-            description:this.description,
-            cover:this.cover,
-            comments:[],
-            price:this.price,
-        });
-        //Limpar Campos
-        this.title = '';
-        this.author = '';
-        this.description = '';
-        this.cover = '';
-        this.price = '';
-        //cleanFields(this.title, this.author, this.description, this.cover, this.comentario, this.price);
-    }
+            function errorCallback() {
+                console.log("Error");
+            };
 
-    this.modify = function(index){
-        this.editData[index] = true;
-    }
+            $http.get('/api/book').then(successCallback, errorCallback);
+        }
 
-    this.update = function(index){
-        this.editData[index] = false;
-    }
+        libraryController.get_books();
 
-    this.comment = function(book, x){
-        book.comments.push(x);
-    }
+        libraryController.add = function(){
+            function successCallback(response) {
+                libraryController.bookList.push(response.data);
+            };
+            
+            function errorCallback(response) {
+                console.log(json);
+                console.log(response);
+            };
+            
+            var json = {
+                id: '',
+                title: libraryController.title,
+                author: libraryController.author,
+                description: libraryController.description,
+                cover: libraryController.cover,
+                price: libraryController.price
+            };
 
-    this.remove = function(bookIndex){
-        //alert(this.bookList[bookIndex]);
-        this.bookList.splice(bookIndex, 1);
-    }
+            $http.post('/api/book', json).then(successCallback, errorCallback);
+        }
+        
+        // /api/
 
-    this.edit = function(x){
-        alert(x.id);
-    }
+        libraryController.modify = function(index){
+            libraryController.editData[index] = true;
+        }
 
-    function getBookByIndex(bookIndex) {
-        return this.bookList[bookIndex];
-    }
+        libraryController.update = function(index){
+            libraryController.editData[index] = false;
+        }
 
-    function cleanFields(){
-            for (var i=0; i < arguments.lenght; i++){
-                    alert(arguments[i]);
-            }
-    }
+        libraryController.comment = function(book, x){
+            book.comments.push(x);
+        }
 
-});
-//----- $http approach
+        libraryController.remove = function(bookIndex){
+            function successCallback(response) {
+                libraryController.bookList.splice(bookIndex, 1);
+            };
+            function errorCallback(response) {
 
-app.factory('libraryService', function ($http) {
-    var get_all_books = function (callback) {
-        $http({
-            method: 'GET',
-            url: '/api/book'
-        }).then(function successCallback(response) {
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-    };
+            };
 
-    return {
-        get_all_books: get_all_books
-    };
-});
+            $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback(), errorCallback());
+        }
+
+        libraryController.edit = function(x){
+            alert(x.id);
+        }
+
+    });
