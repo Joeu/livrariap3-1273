@@ -27,7 +27,17 @@ def as_dict(book):
             'author': book.author,
             'description': book.description,
             'cover': book.cover,
-            'price': book.price}
+            'price': book.price,
+            'comments': book.comments}
+
+
+def as_dict_comment(comment):
+    return {
+            'id': comment.key.id(),
+            'title': comment.title,
+            'author': comment.author,
+            'text': comment.text
+    }
 
 
 class JsonHandler(webapp2.RequestHandler):
@@ -46,7 +56,7 @@ class BookREST(JsonHandler):
 
     def post(self):
         res = json.loads(self.request.body)
-        book = model.insert_book(res['id'], res['title'], res['author'], res['description'], res['cover'], res['price'])
+        book = model.insert_book(res['id'], res['title'], res['author'], res['description'], res['cover'], res['price'], res['comments'])
         res = as_dict(book)
         self.write_json(res)
 
@@ -59,7 +69,16 @@ class BookREST(JsonHandler):
         res = as_dict(book)
         self.write_json(res)
 
+
+class CommentREST(JsonHandler):
+    def post(self, id):
+        res = json.loads(self.request.body)
+        comment = model.comment_book(res['id'], id, res['title'], res['author'], res['text'])
+        res = as_dict_comment(comment)
+        self.write_json(res)
+
 app = webapp2.WSGIApplication([
     ('/api/book', BookREST),
-    (r'/api/book/(?P<id>[0-9]+)$',BookREST)
+    (r'/api/book/(?P<id>[0-9]+)$',BookREST),
+    (r'/api/book/(?P<id>[0-9]+)/comment$',CommentREST)
 ], debug=True)

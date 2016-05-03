@@ -43,7 +43,8 @@ angular.module('app', [])
                 author: libraryController.author,
                 description: libraryController.description,
                 cover: libraryController.cover,
-                price: libraryController.price
+                price: libraryController.price,
+                comments: []
             };
 
             $http.post('/api/book', json).then(successCallback, errorCallback);
@@ -84,8 +85,16 @@ angular.module('app', [])
             $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback(), errorCallback());
         }
 
-        libraryController.comment = function(book, x){
-            book.comments.push(x);
+        libraryController.comment = function(bookIndex, comment){
+            libraryController.bookList[bookIndex].comments.push(comment);
+            function successCallback() {
+
+            };
+            function errorCallback() {
+
+            };
+
+            $http.put('/api/book/'+libraryController.bookList[bookIndex].id+'/comment', json).then(successCallback(), errorCallback());
         }
 
         libraryController.edit = function(x){
