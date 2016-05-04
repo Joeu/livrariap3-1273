@@ -77,8 +77,17 @@ class CommentREST(JsonHandler):
         res = as_dict_comment(comment)
         self.write_json(res)
 
+
+class BookGetId(JsonHandler):
+    def get(self, id):
+        book = model.get_book_by_id(int(id))
+        res = as_dict(book)
+        self.write_json(res)
+
+
 app = webapp2.WSGIApplication([
     ('/api/book', BookREST),
     (r'/api/book/(?P<id>[0-9]+)$',BookREST),
+    (r'/api/bookId/(.*)',BookGetId),
     (r'/api/book/(?P<id>[0-9]+)/comment$',CommentREST)
 ], debug=True)

@@ -12,6 +12,10 @@ handlers:
 - url: /js
   static_dir: js
 
+- url: /api
+  static_files: api.html
+  upload: api.html
+
 - url: /api/.*
   script: main.app
 

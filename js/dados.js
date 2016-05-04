@@ -97,8 +97,4 @@ angular.module('app', [])
             $http.put('/api/book/'+libraryController.bookList[bookIndex].id+'/comment', json).then(successCallback(), errorCallback());
         }
 
-        libraryController.edit = function(x){
-            alert(x.id);
-        }
-
     });
