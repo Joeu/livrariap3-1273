@@ -29,14 +29,18 @@ angular.module('app', [])
 
         libraryController.add = function(){
             function successCallback(response) {
+                console.log("adding book");
                 libraryController.bookList.push(response.data);
+
+                cleanFields();
+                console.log("Fields cleaned");
+
             };
-            
-            function errorCallback(response) {
-                console.log(json);
-                console.log(response);
+            function errorCallback(cause) {
+                console.log("ERROR adding book");
+                console.log(cause);
+
             };
-            
             var json = {
                 id: '',
                 title: libraryController.title,
@@ -49,17 +53,26 @@ angular.module('app', [])
 
             $http.post('/api/book', json).then(successCallback, errorCallback);
         }
-        
+
+        var cleanFields = function () {
+            libraryController.title = null;
+            libraryController.author = null;
+            libraryController.description = null;
+            libraryController.cover = null;
+            libraryController.price = null;
+        }
+
         libraryController.modify = function(index){
             libraryController.editData[index] = true;
         }
 
         libraryController.update = function(bookIndex){
             function successCallback(response) {
+                console.log("updating book");
                 libraryController.editData[bookIndex] = false;
             };
-            function errorCallback(response) {
-                console.log("Error");
+            function errorCallback(cause) {
+                console.log("Error updating book: "+cause);
             };
 
             var json = {
@@ -80,7 +93,7 @@ angular.module('app', [])
                 libraryController.bookList.splice(bookIndex, 1);
             };
             function errorCallback(reason) {
-                console.log(reason);
+                console.log("Error removing: "+reason);
             };
 
             $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback, errorCallback);

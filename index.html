@@ -3,6 +3,7 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 	<script src="/js/dados.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<title>Livraria</title>
 	<meta charset='UTF-8'>
 </head>
@@ -43,12 +44,12 @@
 							<input type="text" ng-model="book.description"></input>
 						</div>
 					</td>
-					<td>
+					<td class="cover">
 						<div ng-hide="lib.editData[$index]">
-							<img src="{{book.cover}}"/>
+							<img class="cover" src="{{book.cover}}"/>
 						</div>
 						<div ng-show="lib.editData[$index]">
-							<input type="text" ng-model="book.cover"></input>
+							<input type="url" ng-model="book.cover"></input>
 						</div>
 					</td>
 					<td>
@@ -58,7 +59,7 @@
 						</div>
 					</td>
 					<td>
-						<img src="https://confluence.atlassian.com/doc/files/268044085/view-a-comment-icon.png" ng-click="lib.commentEnabled = !lib.commentEnabled">
+						<img class="icon" src="https://cdn4.iconfinder.com/data/icons/eldorado-basic/40/comment_chat-512.png" ng-click="lib.commentEnabled = !lib.commentEnabled">
 						<div ng-show="lib.commentEnabled">
 							<ul>
 								<li ng-repeat="comment in book.comments">{{comment}}</li>
@@ -78,7 +79,7 @@
 
 					<td align="center">
 						<a>
-							<img src="https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Delete.png" ng-click="lib.remove($index)">
+							<img class="icon" src="https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Delete.png" ng-click="lib.remove($index)">
 						</a>
 					</td>
 				</tr>
