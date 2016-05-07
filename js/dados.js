@@ -71,18 +71,19 @@ angular.module('app', [])
                 price: libraryController.bookList[bookIndex].price
             };
 
-            $http.put('/api/book/'+ libraryController.bookList[bookIndex].id, json).then(successCallback(), errorCallback());
+            $http.put('/api/book/'+ libraryController.bookList[bookIndex].id, json).then(successCallback, errorCallback);
         }
 
         libraryController.remove = function(bookIndex){
             function successCallback(response) {
+                console.log("Success removing");
                 libraryController.bookList.splice(bookIndex, 1);
             };
-            function errorCallback(response) {
-
+            function errorCallback(reason) {
+                console.log(reason);
             };
 
-            $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback(), errorCallback());
+            $http.delete('/api/book/'+ libraryController.bookList[bookIndex].id).then(successCallback, errorCallback);
         }
 
         libraryController.comment = function(bookIndex, comment){
@@ -94,7 +95,7 @@ angular.module('app', [])
 
             };
 
-            $http.put('/api/book/'+libraryController.bookList[bookIndex].id+'/comment', json).then(successCallback(), errorCallback());
+            $http.put('/api/book/'+libraryController.bookList[bookIndex].id+'/comment', json).then(successCallback, errorCallback);
         }
 
     });
