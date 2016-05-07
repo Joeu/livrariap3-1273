@@ -4,7 +4,7 @@ img.icon {
 }
 
 img.cover {
-    align:"middle";
+    align: middle;
     max-width:150px;
     max-height:200px;
 }
@@ -12,3 +12,32 @@ img.cover {
 td.cover {
     text-align: center;
 }
+
+.booksTable {
+    border-collapse: separate;
+    width: 80%;
+}
+
+th {
+    font-size: large;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+tr {
+    border-radius: 25px;
+}
+
+tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+tr:hover{
+    background-color: #00ffff;
+}
+
+
